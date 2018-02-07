@@ -1,6 +1,5 @@
 (module
   (memory (export "memory") 1)
-
   (func (export "reverse")
     ;; void (i32 input.ptr, i32 input.length)
     (param $input.ptr i32)
@@ -24,10 +23,6 @@
 
         (set_local $a (i32.load8_u (get_local $left.ptr)))
         (set_local $b (i32.load8_u (get_local $right.ptr)))
-
-        (set_local $a (i32.xor (get_local $a) (get_local $b)))
-        (set_local $b (i32.xor (get_local $a) (get_local $b)))
-        (set_local $a (i32.xor (get_local $a) (get_local $b)))
 
         (i32.store8 (get_local $right.ptr) (get_local $a))
         (i32.store8 (get_local $left.ptr) (get_local $b))

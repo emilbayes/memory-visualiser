@@ -1,20 +1,73 @@
 var css = require('sheetify')
 var choo = require('choo')
-var store = require('./stores/clicks')
+var html = require('choo/html')
+var reverseWasm = require('./reverse-wasm')()
 
 css('tachyons')
 
 var app = choo()
 if (process.env.NODE_ENV !== 'production') {
   app.use(require('choo-devtools')())
-} else {
-  app.use(require('choo-service-worker')())
 }
 
-app.use(store)
+app.use(reverse)
+app.use(table)
 
-app.route('/', require('./views/main'))
-app.route('/*', require('./views/404'))
+app.route('/', function (state, emit) {
+  return html`<body>
+    <input onchange=${update}/>
+    <button onclick=${doit}>Reverse</button>
+    <button>Jump to address (i32)</button>
+    ${table.render(state)}
+  </body>`
+
+  function update () {
+    emit('data:update', this.value)
+    emit('render')
+  }
+
+  function doit () {
+    emit('data:execute')
+    emit('render')
+  }
+})
+
+function reverse (state, emitter) {
+  state.memory = reverseWasm.memory
+
+  emitter.on('data:update', function (value) {
+    var buf = Buffer.from(value)
+    console.log(buf)
+    state.len = buf.byteLength
+    state.memory.set(buf)
+  })
+
+  emitter.on('data:execute', function (value) {
+    reverseWasm.exports.reverse(0, state.len)
+  })
+}
+
+function table (state, emitter) {
+  state.stride = 64
+  state.offset = 0
+  state.end = 1024
+}
+
+table.render = function (state, emit) {
+  var rows = []
+
+  for (var i = state.offset; i < state.end; i += state.stride) {
+    var cells = []
+    for (var j = 0; j < state.stride; j++) {
+      cells.push(html`<td>${state.memory[i + j] == null ? '' : state.memory[i + j]}</td>`)
+    }
+
+    rows.push(html`<tr>${cells}</tr>`)
+  }
+
+  return html`<table>${rows}</table>`
+}
+
 function encodePrintableAscii (byte) {
   // What about space chars? Look at hexdump
   if (byte <= 32) return '·'

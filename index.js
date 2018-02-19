@@ -80,7 +80,8 @@ table.render = function (state, emit) {
   for (var i = state.offset; i < state.end; i += state.stride) {
     var cells = [html`<th class="code white-40">${i}</th>`]
     for (var j = 0; j < state.stride; j++) {
-      cells.push(html`<td class="white-80 code f5 w1 h1">${state.memory[i + j] == null ? '' : state.memory[i + j].toString(16).padStart(2, '0')}</td>`)
+      var val = state.memory[i + j] == null ? '' : state.memory[i + j].toString(16).padStart(2, '0')
+      cells.push(html`<td class="white-${val !== '00' ? '80' : '50'} code f5 w1 h1">${val}</td>`)
     }
 
     cells.push(html`<td><code>${Array.from(state.memory.slice(i, i + j), encodePrintableAscii).join('')}</code></td>`)

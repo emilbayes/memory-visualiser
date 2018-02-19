@@ -1,7 +1,8 @@
 var css = require('sheetify')
 var choo = require('choo')
 var html = require('choo/html')
-var reverseWasm = require('./reverse-wasm')()
+
+var funs = require('./elements/funcs')
 
 css('tachyons')
 
@@ -10,47 +11,37 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(require('choo-devtools')())
 }
 
-app.use(reverse)
+app.use(funs)
 app.use(table)
 
 app.route('/', function (state, emit) {
-  return html`<body class="bg-near-black white-80">
     <input onchange=${update}/>
-    <button onclick=${doit}>Reverse</button>
+  return html`<body class="bg-near-black white-80 sans-serif">
     <button>Jump to address (i32)</button>
     ${table.render(state)}
   </body>`
 
-  function update () {
-    emit('data:update', this.value)
-    emit('render')
-  }
-
-  function doit () {
-    emit('data:execute')
-    emit('render')
+  function update (e) {
+    e.preventDefault()
+    var d = new FormData(this)
+    emit('data:update', {
+      offset: +d.get('offset') || 0,
+      data: Buffer.from(d.get('data'), d.get('encoding'))
+    })
+    return false
   }
 })
-
-function reverse (state, emitter) {
-  state.memory = reverseWasm.memory
-
-  emitter.on('data:update', function (value) {
-    var buf = Buffer.from(value)
-    console.log(buf)
-    state.len = buf.byteLength
-    state.memory.set(buf)
-  })
-
-  emitter.on('data:execute', function (value) {
-    reverseWasm.exports.reverse(0, state.len)
-  })
-}
 
 function table (state, emitter) {
   state.stride = 32
   state.offset = 0
   state.end = 1024
+
+  emitter.on('data:update', function (d) {
+    state.memory.set(d.data, d.offset)
+
+    emitter.emit('render')
+  })
 }
 
 table.render = function (state, emit) {

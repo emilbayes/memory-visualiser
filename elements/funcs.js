@@ -60,15 +60,19 @@ function funcs (state, emitter) {
 funcs.render = function (state, emit) {
   var s = state[NS]
 
-  // COuld also show arity in select
-  return html`<form onsubmit=${onexecute}>
+  var inputs = array(s.arity * 2 - 1, ',')
+
+  for (var i = 0; i < inputs.length / 2; i++) {
+    inputs[i * 2] = html`<input name="inputs" value=${s.inputs[i]} style="border:none; border-bottom: 1px solid gray;" class="input-reset w3 bg-transparent white-80 tr"/>`
+  }
+
+  // Could also show arity in select
+  return html`<form onsubmit=${onexecute} class="ma3">
     <code>
-      <select name="fn" onchange=${onchange}>
+      <select name="fn" onchange=${onchange} style="border:none; border-bottom: 1px solid gray;" class="input-reset bg-transparent white-80">
         ${s.fns.map(fn => html`<option value="${fn}">${fn}</option>`)}
       </select>
-      (
-      ${array(s.arity).map((_, i) => html`<input name="inputs" value=${s.inputs[i]}/>`)}
-      )
+      (${inputs})
       <output>${s.output}</output>
     </code>
     <button type="submit">run</button>

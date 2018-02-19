@@ -12,7 +12,7 @@
     (local $b i32)
 
     (set_local $left.ptr (get_local $input.ptr))
-    (set_local $right.ptr (get_local $input.length))
+    (set_local $right.ptr (i32.sub (get_local $input.length) (i32.const 1)))
 
     (loop $continue
       (set_local $a (i32.load8_u (get_local $left.ptr)))

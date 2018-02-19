@@ -14,7 +14,7 @@ app.use(reverse)
 app.use(table)
 
 app.route('/', function (state, emit) {
-  return html`<body>
+  return html`<body class="bg-near-black white-80">
     <input onchange=${update}/>
     <button onclick=${doit}>Reverse</button>
     <button>Jump to address (i32)</button>
@@ -48,7 +48,7 @@ function reverse (state, emitter) {
 }
 
 function table (state, emitter) {
-  state.stride = 64
+  state.stride = 32
   state.offset = 0
   state.end = 1024
 }
@@ -59,9 +59,10 @@ table.render = function (state, emit) {
   for (var i = state.offset; i < state.end; i += state.stride) {
     var cells = []
     for (var j = 0; j < state.stride; j++) {
-      cells.push(html`<td>${state.memory[i + j] == null ? '' : state.memory[i + j]}</td>`)
+      cells.push(html`<td class="white-80 code f5 w1 h1">${state.memory[i + j] == null ? '' : state.memory[i + j].toString(16).padStart(2, '0')}</td>`)
     }
 
+    cells.push(html`<code>${Array.from(state.memory.slice(i, i + j), encodePrintableAscii).join('')}</code>`)
     rows.push(html`<tr>${cells}</tr>`)
   }
 

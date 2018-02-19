@@ -10,7 +10,7 @@ css`
 
 module.exports = funcs
 
-var NS = funcs.NS = Symbol('funcs')
+var NS = funcs.NS = 'funcs'
 
 funcs.EV_EXECUTE = 'execute'
 funcs.EV_UPDATE = 'update'

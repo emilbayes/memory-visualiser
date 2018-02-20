@@ -42,6 +42,8 @@ function funcs (state, emitter) {
     s.fns = Object.keys(s.module.exports).filter(k => typeof s.module.exports[k] === 'function')
 
     emitter.emit(funcs.EV_SET_FUNCTION, s.fns[0])
+
+    emitter.emit('render')
   }
 
   function setFunction (fn) {

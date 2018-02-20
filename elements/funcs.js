@@ -12,9 +12,9 @@ module.exports = funcs
 
 var NS = funcs.NS = 'funcs'
 
-funcs.EV_EXECUTE = 'execute'
-funcs.EV_SET_FUNCTION = 'set-function'
-funcs.EV_SET_MODULE = 'set-module'
+funcs.EV_EXECUTE = 'funcs:execute'
+funcs.EV_SET_FUNCTION = 'funcs:set-function'
+funcs.EV_SET_MODULE = 'funcs:set-module'
 
 function funcs (state, emitter) {
   var s = state[NS] = {}

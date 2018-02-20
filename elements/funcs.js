@@ -13,28 +13,38 @@ module.exports = funcs
 var NS = funcs.NS = 'funcs'
 
 funcs.EV_EXECUTE = 'execute'
-funcs.EV_UPDATE = 'update'
+funcs.EV_SET_FUNCTION = 'set-function'
+funcs.EV_SET_MODULE = 'set-module'
 
 function funcs (state, emitter) {
   var s = state[NS] = {}
 
-  s.module = require('../reverse-wasm')()
-  state.memory = s.module.memory
-  s.fns = Object.keys(s.module.exports).filter(k => typeof s.module.exports[k] === 'function')
+  // Set module
+  s.module = null
+  state.memory = new Uint8Array()
+  s.fns = []
 
+  // Set function
   s.fn = null
   s.arity = 0
   s.inputs = []
   s.output = 'void'
 
-  emitter.on(funcs.EV_UPDATE, update)
+  emitter.on(funcs.EV_SET_MODULE, setModule)
+  emitter.on(funcs.EV_SET_FUNCTION, setFunction)
   emitter.on(funcs.EV_EXECUTE, execute)
-
-  update(s.fns[0])
 
   return
 
-  function update (fn) {
+  function setModule (mod) {
+    s.module = mod
+    state.memory = s.module.memory
+    s.fns = Object.keys(s.module.exports).filter(k => typeof s.module.exports[k] === 'function')
+
+    emitter.emit(funcs.EV_SET_FUNCTION, s.fns[0])
+  }
+
+  function setFunction (fn) {
     s.fn = fn
 
     s.arity = s.module.exports[s.fn].length
@@ -45,8 +55,6 @@ function funcs (state, emitter) {
 
   function execute (inputs) {
     var fn = s.module.exports[s.fn]
-
-    console.log(inputs)
 
     s.inputs = inputs
     s.output = fn.apply(fn, s.inputs)
@@ -90,7 +98,7 @@ funcs.render = function (state, emit) {
   function onchange (e) {
     e.preventDefault()
 
-    emit(funcs.EV_UPDATE, this.value)
+    emit(funcs.EV_SET_FUNCTION, this.value)
     return false
   }
 }

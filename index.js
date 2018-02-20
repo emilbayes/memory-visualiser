@@ -97,5 +97,9 @@ table.render = function (state, emit) {
   }
 }
 
+app.use(function init (state, emitter) {
+  emitter.emit(funs.EV_SET_MODULE, require('./reverse-wasm')())
+})
+
 if (!module.parent) app.mount('body')
 else module.exports = app

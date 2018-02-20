@@ -1,0 +1,15 @@
+notifications:
+  email: false
+language: node_js
+node_js:
+- node
+before_deploy: npm run build
+deploy:
+  provider: pages
+  local-dir: dist
+  skip-cleanup: true
+  github-token:
+    secure: GY4dQPXdWVbrTu1/xmUUCYn68ICISlnxZ1JoEP3bxWuk+y65gk3nIhNoUkmM6yLE9Sus45a060jEC+Z4kSA2YqXovVSV2ggDkaPBj4hx7eCqazaxhUdAj1ND7JPzlJO7vy/cJzdGcTgOHL6+BJhmEQFlOhRsfrVxeDkNeMhoDCrMXkEhvL0/xFeURGLIfazeQqVhHdqaz8cgYNhucSNT19JYToxrFHZgkgBbjO4NRZIW+rNCg5Iwr78hysxzxDRbn7bNuScZ9NTfzTMP9oub0cvOdrg2L0aRvc+a0FDMFY8DvljboyGbbUOurCD1ScSO4335i45uMSBBBgjqY6yQgc76YtRlRQYX1j7DChlUr+1pxgCG72eb1SdBBIcG4KqE3AgLtMRXrHdnTCOgmVAsnDbGus8HHeAHfaeMKq7LHjjR0dWufyvfKipcg+KBUM6H2Ntv6PW+71TIynmhN5ChZg+S/8ev+xCgyLdhwKA47/BSi9pvHWrK+hvBOw1C5pdNCx1XHz20Gfb7bjoa1jwcYMo1Iqr94xYd6fBiDEdFCB61pK8ZNS79qMTu0gfdUwZ7uZ32D21e3E2yoYLQYAv7N1xApI29HZ9F19skkFFUaoeNq9F4vBAYfOEWpKubm9g5+h6iy2uDvPmn/KS9Cv5bJf3VMKQLSbP1Dm7BZsbJQJE=
+  keep-history: true
+  on:
+    branch: master

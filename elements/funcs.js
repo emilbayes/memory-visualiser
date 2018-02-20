@@ -80,7 +80,7 @@ funcs.render = function (state, emit) {
   return html`<form onsubmit=${onexecute} class="ma3">
     <code>
       <select name="fn" onchange=${onchange} style="border:none; border-bottom: 1px solid gray;" class="input-reset bg-transparent white-80">
-        ${s.fns.map(fn => html`<option value="${fn}">${fn}</option>`)}
+        ${s.fns.map(fn => html`<option selected=${s.fn === fn} value="${fn}">${fn}</option>`)}
       </select>
       (${inputs})
       <output>${s.output}</output>

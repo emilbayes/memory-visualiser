@@ -11,6 +11,9 @@
     "test": "standard && npm run test-deps",
     "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
   },
+  "standard": {
+    "globals": [ "WebAssembly", "FormData", "atob" ]
+  },
   "dependencies": {
     "choo": "^6.7.0",
     "choo-devtools": "^2.3.3",
@@ -22,7 +25,7 @@
     "bankai": "^9.3.1",
     "choo-scaffold": "^1.1.2",
     "dependency-check": "^3.0.0",
-    "standard": "^10.0.3",
+    "standard": "^11.0.0",
     "wat2js": "^1.1.1"
   }
 }

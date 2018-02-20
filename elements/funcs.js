@@ -34,8 +34,6 @@ function funcs (state, emitter) {
   emitter.on(funcs.EV_SET_FUNCTION, setFunction)
   emitter.on(funcs.EV_EXECUTE, execute)
 
-  return
-
   function setModule (mod) {
     s.module = mod
     state.memory = s.module.memory
@@ -92,7 +90,7 @@ funcs.render = function (state, emit) {
     e.preventDefault()
 
     var data = new FormData(this)
-    var nums = data.getAll("inputs").map(n => n.startsWith('0x') ? parseInt(n) : parseFloat(n))
+    var nums = data.getAll('inputs').map(n => n.startsWith('0x') ? parseInt(n) : parseFloat(n))
     // should assert all .isFinite
     emit(funcs.EV_EXECUTE, nums)
     return false

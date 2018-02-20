@@ -1,9 +1,6 @@
 var html = require('choo/html')
-var css = require('sheetify')
 
 module.exports = mem
-
-var NS = mem.NS = 'mem'
 
 mem.EV_SET = 'mem:set'
 

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "compile": "wat2js reverse.wat > reverse-wasm.js",
-    "build": "bankai build index.js --base memory-visualiser",
+    "build": "bankai build index.js --base '/memory-visualiser'",
     "create": "choo-scaffold",
     "inspect": "bankai inspect index.js",
     "start": "bankai start index.js",
@@ -22,7 +22,7 @@
     "tachyons": "^4.9.1"
   },
   "devDependencies": {
-    "bankai": "^9.3.1",
+    "bankai": "^9.7.1",
     "choo-scaffold": "^1.1.2",
     "dependency-check": "^3.0.0",
     "standard": "^11.0.0",

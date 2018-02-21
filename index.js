@@ -17,7 +17,7 @@ app.use(funs)
 app.use(mem)
 app.use(table)
 
-app.route('/', function (state, emit) {
+app.route('*', function (state, emit) {
   return html`<body class="bg-near-black white-80 sans-serif">
     ${mem.render(state, emit)}
 

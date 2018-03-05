@@ -13,12 +13,14 @@ function table (state, emitter) {
   s.units = {
     'binary': {
       unit: 'Bits',
+      empty: '00000000',
       width: 8,
       base: 2,
       stride: 8
     },
     'hex': {
       unit: 'Bytes',
+      empty: '00',
       width: 2,
       base: 16,
       stride: 32
@@ -51,7 +53,7 @@ table.render = function (state, emit) {
     var cells = [html`<th class="code white-40">${i * u.width}</th>`]
     for (var j = 0; j < u.stride; j++) {
       var val = state.memory[i + j] == null ? '' : state.memory[i + j].toString(u.base).padStart(u.width, '0')
-      cells.push(html`<td class="white-${!val ? '80' : '50'} code f5 w1 h1">${val}</td>`)
+      cells.push(html`<td class="white-${val !== u.empty ? '80' : '50'} code f5 w1 h1">${val}</td>`)
     }
 
     cells.push(html`<td><code>${Array.from(state.memory.slice(i, i + j), encodePrintableAscii).join('')}</code></td>`)

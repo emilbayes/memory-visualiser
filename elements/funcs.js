@@ -68,6 +68,8 @@ function funcs (state, emitter) {
 funcs.render = function (state, emit) {
   var s = state[NS]
 
+  if (s.module == null) return html`<code>Please drop a .wasm file`
+
   var inputs = array(s.arity * 2 - 1, ',')
 
   for (var i = 0; i < inputs.length / 2; i++) {

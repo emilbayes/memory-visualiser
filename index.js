@@ -32,7 +32,7 @@ function render (state, emit) {
 }
 
 app.use(function init (state, emitter) {
-  emitter.emit(funs.EV_SET_MODULE, require('./reverse-wasm')())
+  emitter.emit(funs.EV_SET_MODULE, require('./bitfield-wasm')())
 })
 
 if (!module.parent) app.mount('body')

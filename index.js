@@ -17,17 +17,19 @@ app.use(funs)
 app.use(mem)
 app.use(table)
 
-app.route('*', function (state, emit) {
+// Hack for bankai SSR
+app.route('/', render)
+app.route('/memory-visualiser', render)
+
+function render (state, emit) {
   return html`<body class="bg-near-black white-80 sans-serif">
     ${mem.render(state, emit)}
 
     ${funs.render(state, emit)}
 
-    <button>Jump to address (i32)</button>
-
     ${table.render(state, emit)}
   </body>`
-})
+}
 
 app.use(function init (state, emitter) {
   emitter.emit(funs.EV_SET_MODULE, require('./reverse-wasm')())

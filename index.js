@@ -25,7 +25,7 @@ app.route('*', function (state, emit) {
 
     <button>Jump to address (i32)</button>
 
-    ${table.render(state)}
+    ${table.render(state, emit)}
   </body>`
 })
 

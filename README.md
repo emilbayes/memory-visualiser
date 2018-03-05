@@ -1,6 +1,6 @@
 # memory-visualiser
 
-[![Build Status](https://travis-ci.org/emilbaues/memory-visualiser.svg?branch=master)](https://travis-ci.org/emilbaues/memory-visualiser)
+[![Build Status](https://travis-ci.org/emilbayes/memory-visualiser.svg?branch=master)](https://travis-ci.org/emilbayes/memory-visualiser)
 
 memory-visualiser
 

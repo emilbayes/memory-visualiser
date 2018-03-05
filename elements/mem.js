@@ -2,11 +2,30 @@ var html = require('choo/html')
 
 module.exports = mem
 
+var NS = mem.NS = 'mem'
 mem.EV_SET = 'mem:set'
 
 function mem (state, emitter) {
+  var s = state[NS] = {}
+
+  s.selectedEncoding = 'hex'
+
+
   emitter.on(mem.EV_SET, function (str, encoding, offset) {
-    var buf = Buffer.from(str, encoding)
+    var buf
+
+    s.selectedEncoding = encoding
+
+    switch (encoding) {
+      case 'binary':
+        buf = Buffer.from(str.replace(/0b|_|\s/ig, '').match(/[01]{8}/i).map(s => parseInt(s, 2)))
+        break
+      case 'hex':
+        buf = Buffer.from(str.replace(/0x|_|\s/ig, ''), 'hex')
+        break
+      default:
+        buf = Buffer.from(str, encoding)
+    }
 
     state.memory.set(buf, offset)
     emitter.emit('render')
@@ -14,6 +33,7 @@ function mem (state, emitter) {
 }
 
 mem.render = function (state, emit) {
+  var s = state[NS]
   return html`<form class="pa1 white-80 fr f7" onsubmit=${onsubmit}>
     <section class="measure-narrow">
       <label for="offset" class="f6 b db mb2">Offset</label>
@@ -31,10 +51,9 @@ mem.render = function (state, emit) {
     </section>
     <section className="measure-narrow">
       <select name="encoding" class="input-reset ba b--white-10 pa1 mb1 db w-100">
-        <option value="utf8">UTF-8</option>
-        <option value="ascii">ASCII</option>
-        <option value="hex">HEX</option>
-        <option value="base64">base64</option>
+        ${['hex', 'binary', 'utf8', 'ascii', 'base64'].map(e =>
+          html`<option ${s.currentEncoding === e ? 'selected' : ''} value="${e}">${e}</option>`
+        )}
       </select>
 
       <button type="submit">Apply</button>

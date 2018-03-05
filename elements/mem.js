@@ -10,7 +10,6 @@ function mem (state, emitter) {
 
   s.selectedEncoding = 'hex'
 
-
   emitter.on(mem.EV_SET, function (str, encoding, offset) {
     var buf
 
@@ -51,9 +50,7 @@ mem.render = function (state, emit) {
     </section>
     <section className="measure-narrow">
       <select name="encoding" class="input-reset ba b--white-10 pa1 mb1 db w-100">
-        ${['hex', 'binary', 'utf8', 'ascii', 'base64'].map(e =>
-          html`<option ${s.currentEncoding === e ? 'selected' : ''} value="${e}">${e}</option>`
-        )}
+        ${['hex', 'binary', 'utf8', 'ascii', 'base64'].map(e => html`<option ${s.currentEncoding === e ? 'selected' : ''} value="${e}">${e}</option>`)}
       </select>
 
       <button type="submit">Apply</button>

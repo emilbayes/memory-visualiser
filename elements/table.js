@@ -51,7 +51,7 @@ table.render = function (state, emit) {
     var cells = [html`<th class="code white-40">${i * u.width}</th>`]
     for (var j = 0; j < u.stride; j++) {
       var val = state.memory[i + j] == null ? '' : state.memory[i + j].toString(u.base).padStart(u.width, '0')
-      cells.push(html`<td class="white-${val != 0 ? '80' : '50'} code f5 w1 h1">${val}</td>`)
+      cells.push(html`<td class="white-${!val ? '80' : '50'} code f5 w1 h1">${val}</td>`)
     }
 
     cells.push(html`<td><code>${Array.from(state.memory.slice(i, i + j), encodePrintableAscii).join('')}</code></td>`)

@@ -91,7 +91,7 @@ funcs.render = function (state, emit) {
   function onexecute (e) {
     e.preventDefault()
 
-    var data = new FormData(this)
+    var data = new window.FormData(this)
     var nums = data.getAll('inputs').map(n => n.startsWith('0x') ? parseInt(n) : parseFloat(n))
     // should assert all .isFinite
     emit(funcs.EV_EXECUTE, nums)

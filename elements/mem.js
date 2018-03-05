@@ -59,7 +59,7 @@ mem.render = function (state, emit) {
 
   function onsubmit (e) {
     e.preventDefault()
-    var d = new FormData(this)
+    var d = new window.FormData(this)
     emit(mem.EV_SET, d.get('data'), d.get('encoding'), +d.get('offset'))
     return false
   }

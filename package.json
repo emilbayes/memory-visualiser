@@ -13,9 +13,7 @@
   },
   "standard": {
     "globals": [
-      "WebAssembly",
-      "FormData",
-      "atob"
+      "WebAssembly"
     ]
   },
   "dependencies": {

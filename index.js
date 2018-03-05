@@ -37,13 +37,13 @@ function render (state, emit) {
     e.preventDefault()
 
     try {
-      var f = new FileReader()
+      var f = new window.FileReader()
       f.onloadend = function () {
         emit(funs.EV_SET_MODULE, loadWasm(f.result))
       }
       f.readAsArrayBuffer(e.dataTransfer.items[0].getAsFile())
     } catch (ex) {
-      alert(ex)
+      window.alert(ex)
     }
 
     return false

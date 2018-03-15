@@ -13,6 +13,8 @@ css('tachyons')
 var app = choo()
 if (process.env.NODE_ENV !== 'production') {
   app.use(require('choo-devtools')())
+} else {
+  app.use(require('choo-service-worker')())
 }
 
 app.use(funs)

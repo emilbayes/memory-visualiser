@@ -16,6 +16,14 @@ function mem (state, emitter) {
     s.selectedEncoding = encoding
 
     switch (encoding) {
+      case 'f64':
+        buf = Buffer.alloc(8)
+        buf.writeDoubleLE(parseFloat(str), 0)
+        break
+      case 'f32':
+        buf = Buffer.alloc(4)
+        buf.writeFloatLE(parseFloat(str), 0)
+        break
       case 'binary':
         buf = Buffer.from(str.replace(/0b|_|\s/ig, '').match(/[01]{8}/i).map(s => parseInt(s, 2)))
         break
@@ -50,7 +58,7 @@ mem.render = function (state, emit) {
     </section>
     <section className="measure-narrow">
       <select name="encoding" class="input-reset ba b--white-10 pa1 mb1 db w-100">
-        ${['hex', 'binary', 'utf8', 'ascii', 'base64'].map(e => html`<option ${s.currentEncoding === e ? 'selected' : ''} value="${e}">${e}</option>`)}
+        ${['hex', 'binary', 'utf8', 'ascii', 'base64', 'f64', 'f32'].map(e => html`<option ${s.currentEncoding === e ? 'selected' : ''} value="${e}">${e}</option>`)}
       </select>
 
       <button type="submit">Apply</button>

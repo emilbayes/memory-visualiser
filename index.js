@@ -24,6 +24,9 @@ app.use(table)
 // Hack for bankai SSR
 app.route('/', render)
 app.route('/memory-visualiser', render)
+app.route('*', function () {
+  return html`<code>error</code>`
+})
 
 function render (state, emit) {
   return html`<body class="bg-near-black white-80 sans-serif" ondragenter=${kill} ondragover=${kill} ondrop=${drop}>
